@@ -1,13 +1,10 @@
 # Backend
 backend/target/
-backend/.mvn/
-backend/mvnw
-backend/mvnw.cmd
+backend/.mvn/wrapper/*.jar
 *.class
-*.jar
 *.war
 *.ear
-*.log
+backend/uploads/
 
 # Frontend
 frontend/node_modules/
@@ -21,7 +18,7 @@ frontend/.env.production.local
 # IDE
 .idea/
 *.iml
-.vscode/
+# .vscode/ - 주석 처리 (프로젝트 설정 포함)
 *.swp
 *.swo
 
@@ -37,11 +34,13 @@ Thumbs.db
 logs/
 *.log
 
-# Environment
-.env
+# Environment files (keep .env examples)
+backend/.env
+frontend/.env
 
 # Docker volumes
 data/
 chroma_data/
 opensearch_data/
 mysql_data/
+ollama_data/

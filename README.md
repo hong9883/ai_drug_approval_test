@@ -69,12 +69,62 @@
 
 ## 시스템 요구사항
 
-- Docker 20.10 이상
-- Docker Compose 2.0 이상
+### 개발 환경
+- **Java 17** 이상
+- **Node.js 18** 이상
+- **Maven 3.8** 이상 (또는 Maven Wrapper 사용)
+- **Docker 20.10** 이상
+- **Docker Compose 2.0** 이상
+
+### 시스템 리소스
 - 최소 16GB RAM (Ollama LLM 실행용)
 - 최소 50GB 디스크 공간
 
+### 권장 IDE
+- **VSCode** with Java Extension Pack
+- **IntelliJ IDEA** (또는 다른 Java IDE)
+
 ## 설치 및 실행
+
+> **💡 VSCode 사용자**: [VSCode 실행 가이드](VSCODE_GUIDE.md)를 참조하세요.
+
+### 빠른 시작 (스크립트 사용)
+
+```bash
+# 1. 전체 인프라 시작
+./start-all.sh
+
+# 2. Backend 실행 (새 터미널)
+./start-backend.sh
+
+# 3. Frontend 실행 (새 터미널)
+./start-frontend.sh
+```
+
+브라우저에서 http://localhost:3000 접속
+
+### VSCode에서 실행
+
+1. **프로젝트 열기**
+   ```bash
+   code ai_drug_approval_test
+   ```
+
+2. **권장 확장 프로그램 설치** (자동 프롬프트 표시)
+   - Java Extension Pack
+   - Spring Boot Extension Pack
+   - ESLint, Prettier
+
+3. **인프라 시작**
+   - `Ctrl+Shift+P` → "Tasks: Run Task" → "Docker: Start Infrastructure"
+
+4. **애플리케이션 실행**
+   - `F5` 키 → "Full Stack" 선택
+   - Backend와 Frontend가 자동으로 실행됩니다
+
+상세한 내용은 [VSCODE_GUIDE.md](VSCODE_GUIDE.md)를 참조하세요.
+
+## 상세 설치 및 실행
 
 ### 1. 저장소 클론
 
