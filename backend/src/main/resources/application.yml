@@ -1,0 +1,66 @@
+spring:
+  application:
+    name: drug-approval-system
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/drug_approval?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul}
+    username: ${SPRING_DATASOURCE_USERNAME:drugadmin}
+    password: ${SPRING_DATASOURCE_PASSWORD:drugpassword}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    open-in-view: false
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+  security:
+    user:
+      name: admin
+      password: admin123
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+# Custom Application Properties
+app:
+  chroma:
+    url: ${CHROMA_URL:http://localhost:8000}
+    collection-name: drug_documents
+    auth-token: ${CHROMA_AUTH_TOKEN:test-token}
+
+  opensearch:
+    url: ${OPENSEARCH_URL:http://localhost:9200}
+    index-name: drug_documents
+
+  ollama:
+    url: ${OLLAMA_URL:http://localhost:11434}
+    model: ${OLLAMA_MODEL:llama3.2:latest}
+
+  upload:
+    directory: ${UPLOAD_DIR:./uploads}
+
+logging:
+  level:
+    root: INFO
+    com.drugapproval: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
