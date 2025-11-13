@@ -1,0 +1,150 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: drug-approval-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: drug_approval
+      MYSQL_USER: drugadmin
+      MYSQL_PASSWORD: drugpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - drug-approval-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # ChromaDB Vector Database
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: drug-approval-chroma
+    environment:
+      - CHROMA_SERVER_AUTH_CREDENTIALS_PROVIDER=chromadb.auth.token.TokenAuthCredentialsProvider
+      - CHROMA_SERVER_AUTH_TOKEN_TRANSPORT_HEADER=X_CHROMA_TOKEN
+      - CHROMA_SERVER_AUTH_CREDENTIALS=test-token
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    networks:
+      - drug-approval-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/heartbeat"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # OpenSearch
+  opensearch:
+    image: opensearchproject/opensearch:2.11.0
+    container_name: drug-approval-opensearch
+    environment:
+      - discovery.type=single-node
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
+      - DISABLE_SECURITY_PLUGIN=true
+      - bootstrap.memory_lock=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
+    networks:
+      - drug-approval-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # OpenSearch Dashboards (Optional - for visualization)
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:2.11.0
+    container_name: drug-approval-opensearch-dashboards
+    environment:
+      - OPENSEARCH_HOSTS=["http://opensearch:9200"]
+      - DISABLE_SECURITY_DASHBOARDS_PLUGIN=true
+    ports:
+      - "5601:5601"
+    networks:
+      - drug-approval-network
+    depends_on:
+      - opensearch
+
+  # Ollama for Local LLM
+  ollama:
+    image: ollama/ollama:latest
+    container_name: drug-approval-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - drug-approval-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # Backend (SpringBoot) - Uncomment after building
+  # backend:
+  #   build:
+  #     context: ./backend
+  #     dockerfile: Dockerfile
+  #   container_name: drug-approval-backend
+  #   environment:
+  #     - SPRING_PROFILES_ACTIVE=dev
+  #     - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/drug_approval
+  #     - SPRING_DATASOURCE_USERNAME=drugadmin
+  #     - SPRING_DATASOURCE_PASSWORD=drugpassword
+  #     - CHROMA_URL=http://chromadb:8000
+  #     - OPENSEARCH_URL=http://opensearch:9200
+  #     - OLLAMA_URL=http://ollama:11434
+  #   ports:
+  #     - "8080:8080"
+  #   networks:
+  #     - drug-approval-network
+  #   depends_on:
+  #     - mysql
+  #     - chromadb
+  #     - opensearch
+  #     - ollama
+
+  # Frontend (React) - Uncomment after building
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   container_name: drug-approval-frontend
+  #   environment:
+  #     - REACT_APP_API_URL=http://localhost:8080
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - drug-approval-network
+  #   depends_on:
+  #     - backend
+
+volumes:
+  mysql_data:
+  chroma_data:
+  opensearch_data:
+  ollama_data:
+
+networks:
+  drug-approval-network:
+    driver: bridge
