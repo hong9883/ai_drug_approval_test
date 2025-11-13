@@ -71,7 +71,13 @@ public class DocumentService {
             document = documentRepository.save(document);
 
             // 비동기로 PDF 처리 (실제로는 별도 스레드나 큐 사용 권장)
-            processDocument(document.getId());
+            try {
+                processDocument(document.getId());
+            } catch (Exception e) {
+                log.error("Error processing document {}, but upload was successful", document.getId(), e);
+                // 문서 처리 실패 시에도 업로드는 성공으로 처리
+                // 문서 상태는 processDocument 내부에서 FAILED로 변경됨
+            }
 
             return DocumentDto.fromEntity(document);
         } catch (Exception e) {
