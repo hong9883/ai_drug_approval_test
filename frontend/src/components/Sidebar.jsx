@@ -71,9 +71,7 @@ const MenuText = styled.span`
   transition: opacity 0.2s;
 `;
 
-const Sidebar = ({ collapsed, onToggle }) => {
-  const [activeMenu, setActiveMenu] = useState('documents');
-
+const Sidebar = ({ collapsed, onToggle, activeMenu, onMenuChange }) => {
   const menuItems = [
     { id: 'upload', icon: Upload, label: '문서등록' },
     { id: 'documents', icon: FileText, label: '문서보기' },
@@ -92,7 +90,7 @@ const Sidebar = ({ collapsed, onToggle }) => {
           <MenuItem
             key={item.id}
             active={activeMenu === item.id}
-            onClick={() => setActiveMenu(item.id)}
+            onClick={() => onMenuChange(item.id)}
           >
             <item.icon size={24} />
             <MenuText collapsed={collapsed}>{item.label}</MenuText>

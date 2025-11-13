@@ -27,6 +27,7 @@ const App = () => {
   });
 
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [activeMenu, setActiveMenu] = useState('documents');
 
   return (
     <BrowserRouter>
@@ -34,10 +35,12 @@ const App = () => {
         <Header user={currentUser} />
         <ContentArea>
           <Chatbot />
-          <MainContent />
+          <MainContent activeMenu={activeMenu} currentUser={currentUser} />
           <Sidebar
             collapsed={sidebarCollapsed}
             onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+            activeMenu={activeMenu}
+            onMenuChange={setActiveMenu}
           />
         </ContentArea>
       </AppContainer>
