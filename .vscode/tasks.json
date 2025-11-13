@@ -1,0 +1,114 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Maven: Clean",
+      "type": "shell",
+      "command": "./mvnw clean",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Maven: Compile",
+      "type": "shell",
+      "command": "./mvnw compile",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$maven"]
+    },
+    {
+      "label": "Maven: Package",
+      "type": "shell",
+      "command": "./mvnw package -DskipTests",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "group": "build",
+      "problemMatcher": ["$maven"]
+    },
+    {
+      "label": "Maven: Test",
+      "type": "shell",
+      "command": "./mvnw test",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "group": "test",
+      "problemMatcher": ["$maven"]
+    },
+    {
+      "label": "npm: Install",
+      "type": "shell",
+      "command": "npm install",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "npm: Dev",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "."
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".",
+          "endsPattern": "."
+        }
+      }
+    },
+    {
+      "label": "npm: Build",
+      "type": "shell",
+      "command": "npm run build",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Docker: Start Infrastructure",
+      "type": "shell",
+      "command": "docker-compose up -d mysql chromadb opensearch ollama",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Docker: Stop All",
+      "type": "shell",
+      "command": "docker-compose down",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Ollama: Pull Model",
+      "type": "shell",
+      "command": "docker exec drug-approval-ollama ollama pull llama3.2",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

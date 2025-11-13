@@ -1,0 +1,60 @@
+{
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.debug.settings.onBuildFailureProceed": true,
+  "java.project.sourcePaths": ["backend/src/main/java"],
+  "java.project.outputPath": "backend/target/classes",
+  "java.project.referencedLibraries": [
+    "backend/lib/**/*.jar"
+  ],
+
+  "spring-boot.ls.problem.application-properties.enabled": true,
+  "spring-boot.ls.problem.application-yaml.enabled": true,
+
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/target": true,
+    "**/.idea": true
+  },
+
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java",
+    "editor.tabSize": 4
+  },
+
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2
+  },
+
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2
+  },
+
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2
+  },
+
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml",
+    "editor.tabSize": 2
+  },
+
+  "eslint.workingDirectories": [
+    "./frontend"
+  ],
+
+  "files.associations": {
+    "*.yml": "yaml",
+    "*.yaml": "yaml"
+  }
+}

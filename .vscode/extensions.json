@@ -1,0 +1,18 @@
+{
+  "recommendations": [
+    "vscjava.vscode-java-pack",
+    "vmware.vscode-spring-boot",
+    "vscjava.vscode-spring-initializr",
+    "vscjava.vscode-spring-boot-dashboard",
+    "gabrielbb.vscode-lombok",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "ms-vscode.vscode-typescript-next",
+    "dsznajder.es7-react-js-snippets",
+    "bradlc.vscode-tailwindcss",
+    "styled-components.vscode-styled-components",
+    "redhat.vscode-yaml",
+    "redhat.java",
+    "ms-azuretools.vscode-docker"
+  ]
+}
